@@ -1,126 +1,217 @@
-let input = document.getElementById("todoinput")
-let todolist = document.getElementById("todolist")
-let form = document.getElementById("form")
-let itemsleft = document.getElementById("itemsleft")
-let imagetoggle = document.getElementById("imagetoggle")
+let todoItemsContainer = document.getElementById("todoItemsContainer");
+let addTodoButton = document.getElementById("addTodoButton");
+let saveTodoButton = document.getElementById("saveTodoButton");
 
 
 
 
-function getToDoListFromLocalStorage(){
-    let stringifyList = localStorage.getItem("toDoList")
-    let parsedList = JSON.parse(stringifyList)
-    if (parsedList === null){
-        return []
-    }else{
-        return parsedList
+
+let todos = [];
+
+const API_BASE_URL = `https://cors-anywhere.herokuapp.com/https://todos.edgehub.in`;
+const TOKEN = `0da9cb45-4698-4fc5-8ae3-19af96476bde`;
+
+function fetchTodos() {
+  fetch(API_BASE_URL, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`
     }
-}
-
-let toDoList = getToDoListFromLocalStorage()
-let toDoCount = toDoList.length
-
-function validation(){
-    let todoinput = input.value
-
-    if (todoinput===null){
-        alert("Enter valid Text")
-        return
-    }
-    toDoCount+=1
-
-    let newToDo = {
-        text: todoinput,
-        uniqueId : toDoCount,
-        checked: false
-    }
-    toDoList.push(newToDo)
-    createandappend(newToDo)
-    input.value=""
-    
-    localStorage.setItem("toDoList",JSON.stringify(toDoList))
-}
-
-function labeltoggle(labelId,todoId){
-    let labelElement = document.getElementById(labelId)
-    labelElement.classList.toggle(checked)
-
-    let labelIndex = toDoList.findIndex(function(todo){
-        let labelElement = "todo"+todo.uniqueId
-        if (labelElement===todoId){
-            return true
-        }
-        else{
-            return false
-        }
+  })
+    .then((res) => {
+      return res.json();
     })
-
-    let todoObject = toDoList[labelIndex]
-    if (todoObject.checked===true){
-        todoObject.checked = false
-    }else{
-        todoObject.checked=true
-    }
-}
-
-
-
-function deletetodo(todoId){
-    let todoelement =document.getElementById(todoId)
-    todolist.removeChild(todoelement)
-
-    let deleteElementIndex = toDoList.findIndex(function(eachtodo){
-        let eachtodoId = "todo" + eachtodo.uniqueId
-        if (eachtodoId === todoId){
-                return true
-        }else{
-            return false
-        }
+    .then((todosResponse) => {
+      todos = todosResponse;
+      for (let todo of todoList) {
+        createAndAppendTodo(todo);
+      }
     })
-    toDoList.splice(deleteElementIndex,1)
+    .catch((e) => {
+      console.log(e);
+    });
 }
 
-function createandappend(todo) {
-    let todoId = "todo" + todo.uniqueId
-    let checkboxId = "checkbox" + todo.uniqueId
-    let labelId = "label" + todo.uniqueId
+function createTodos(todo) {
+  fetch(API_BASE_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(todo)
+  })
+    .catch((e) => {
+      console.log(e);
+      alert(e.message);
+    });
+}
 
-    let todoelement = document.createElement("li")
-    todolist.appendChild(todoelement)
+function updateTodos(id, data) {
+  fetch(`${API_BASE_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .catch((e) => {
+      console.log(e);
+      alert(e.message);
+    });
+}
 
-    let inputElement = document.createElement("input")
-    inputElement.type = "checkbox"
-    inputElement.id = checkboxId
-    inputElement.checked = todo.checked
-    todoelement.appendChild(inputElement)
-
-    let labelElement = document.createElement("label")
-    labelElement.setAttribute("for",checkboxId)
-    labelElement.id = labelId
-    labelElement.textContent = todo.text
-    todoelement.appendChild(labelElement)
-
-
-
-    let deleteIcon = document.createElement("i")
-    deleteIcon.classList.add("fas","fa-times")
-    todoelement.appendChild(deleteIcon)
-
-    deleteIcon.onclick = function(){
-        deletetodo(todoId)
+function deleteTodos(id) {
+  fetch(`${API_BASE_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`
     }
-    let totalitems = toDoList.length
-console.log(totalitems)
-itemsleft.textContent = totalitems + " items left"
-
-}
-form.addEventListener("submit",function(event){
-    event.preventDefault()
-    validation()
-})
-
-for(let todo of toDoList){
-    createandappend(todo)
+  })
+    .then((res) => {
+      onDeleteTodo(id);
+    })
+    .catch((e) => {
+      console.log(e);
+      alert(e.message);
+    });
 }
 
 
+function getTodoListFromLocalStorage() {
+  let stringifiedTodoList = localStorage.getItem("todoList");
+  let parsedTodoList = JSON.parse(stringifiedTodoList);
+  if (parsedTodoList === null) {
+    return [];
+  } else {
+    return parsedTodoList;
+  }
+}
+
+let todoList = getTodoListFromLocalStorage();
+let todosCount = todoList.length;
+
+saveTodoButton.onclick = function() {
+  localStorage.setItem("todoList", JSON.stringify(todoList));
+};
+
+function onAddTodo() {
+  let userInputElement = document.getElementById("todoUserInput");
+  let userInputValue = userInputElement.value;
+
+  if (userInputValue === "") {
+    alert("Enter Valid Text");
+    return;
+  }
+
+  todosCount = todosCount + 1;
+
+  let newTodo = {
+    text: userInputValue,
+    id: todosCount,
+    isCompleted: false
+  };
+  todoList.push(newTodo);
+  createAndAppendTodo(newTodo);
+  createTodos(newTodo)
+  userInputElement.value = "";
+}
+
+addTodoButton.onclick = function() {
+  onAddTodo();
+};
+
+function onTodoStatusChange(checkboxId, labelId, todoId) {
+  let checkboxElement = document.getElementById(checkboxId);
+  let labelElement = document.getElementById(labelId);
+  labelElement.classList.toggle("checked");
+
+  let todoObjectIndex = todoList.findIndex(function(eachTodo) {
+    let eachTodoId = "todo" + eachTodo.id;
+
+    if (eachTodoId === todoId) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  let todoObject = todoList[todoObjectIndex];
+
+  if(todoObject.isCompleted === true){
+    todoObject.isCompleted = false;
+  } else {
+    todoObject.isCompleted = true;
+  }
+  updateTodos(todoObject.id, todoObject)
+
+}
+
+function onDeleteTodo(todoId) {
+  let todoElement = document.getElementById(todoId);
+  todoItemsContainer.removeChild(todoElement);
+
+  let deleteElementIndex = todoList.findIndex(function(eachTodo) {
+    let eachTodoId = "todo" + eachTodo.id;
+    if (eachTodoId === todoId) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  todoList.splice(deleteElementIndex, 1);
+}
+
+function createAndAppendTodo(todo) {
+  let todoId = "todo" + todo.id;
+  let checkboxId = "checkbox" + todo.id;
+  let labelId = "label" + todo.id;
+
+  let todoElement = document.createElement("li");
+  todoElement.classList.add("todo-item-container", "d-flex", "flex-row");
+  todoElement.id = todoId;
+  todoItemsContainer.appendChild(todoElement);
+
+  let inputElement = document.createElement("input");
+  inputElement.type = "checkbox";
+  inputElement.id = checkboxId;
+  inputElement.checked = todo.isCompleted;
+
+  inputElement.onclick = function () {
+    onTodoStatusChange(checkboxId, labelId, todoId);
+  };
+
+  inputElement.classList.add("checkbox-input");
+  todoElement.appendChild(inputElement);
+
+  let labelContainer = document.createElement("div");
+  labelContainer.classList.add("label-container", "d-flex", "flex-row");
+  todoElement.appendChild(labelContainer);
+
+  let labelElement = document.createElement("label");
+  labelElement.setAttribute("for", checkboxId);
+  labelElement.id = labelId;
+  labelElement.classList.add("checkbox-label");
+  labelElement.textContent = todo.text;
+  if (todo.isCompleted === true) {
+    labelElement.classList.add("checked");
+  }
+  labelContainer.appendChild(labelElement);
+
+  let deleteIconContainer = document.createElement("div");
+  deleteIconContainer.classList.add("delete-icon-container");
+  labelContainer.appendChild(deleteIconContainer);
+
+  let deleteIcon = document.createElement("i");
+  deleteIcon.classList.add("far", "fa-trash-alt", "delete-icon");
+
+  deleteIcon.onclick = function () {
+    deleteTodos(todoId);
+  };
+
+  deleteIconContainer.appendChild(deleteIcon);
+}
+
+fetchTodos()

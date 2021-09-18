@@ -1,114 +1,119 @@
-.attribution { font-size: 11px; text-align: center; }
-.attribution a { color: hsl(228, 45%, 44%); }
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
 
-.todoapp{
-    background-color:  hsl(235, 21%, 11%);
-    background-size: cover;
-    height: 100vh;
-}
-.todo{
-    padding-top: 3%;
-    background-image: url("../images/bg-desktop-dark.jpg");
-    background-size: cover;
-    height: 30vh;
+.todos-bg-container {
+  background-color: #f9fbfe;
+  height: 100vh;
 }
 
-.todomoon{
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-}
-.header{
-    font-size: 28px;
-    color: white;
-}
-.btnimage{
-    background-color: transparent;
-    border-width: 0px;
-}
-.image{
-    padding-top: 2%;
-    width: 25px;
-    height: 25px;
-}
-.input{
-    padding-top: 3%;
-    text-align: center;
-}
-.todoinput{
-    padding-top: 1%;
-    padding-bottom: 1%;
-    width: 40%;
-    border-width: 0px;
-    background-color: hsl(235, 19%, 35%);
-    color: white;
-}
-.todolist{
-    padding-top: 1%;
-    padding-bottom: 1%;
-    width: 37%;
-    background-color: hsl(235, 19%, 35%);
-    color: white;
-    margin-bottom: 0px;
-}
-.todocontainer{
-    display: flex;
-    justify-content: center;
+.todos-heading {
+  text-align: center;
+  font-family: "Roboto";
+  font-size: 46px;
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.bgimage{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+.create-task-heading {
+  font-family: "Roboto";
+  font-size: 32px;
+  font-weight: 700;
 }
-li{
-    list-style: none;
+
+.create-task-heading-subpart {
+  font-family: "Roboto";
+  font-size: 32px;
+  font-weight: 500;
 }
-.detailscontainer{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+
+.todo-items-heading {
+  font-family: "Roboto";
+  font-size: 32px;
+  font-weight: 700;
 }
-.details{
-    width: 40%;
-    color: white;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-    background-color: hsl(235, 19%, 35%);
+
+.todo-items-heading-subpart {
+  font-family: "Roboto";
+  font-size: 32px;
+  font-weight: 500;
 }
-.itemsdetails{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+
+.todo-items-container {
+  margin: 0px;
+  padding: 0px;
 }
-.checked{
-text-decoration: line-through;
+
+.todo-item-container {
+  margin-top: 15px;
 }
-.items{
-    font-size: 10px;
+
+.todo-user-input {
+  background-color: white;
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e4e7eb;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 15px;
 }
-.all {
-    font-size: 10px;
-    background-color: transparent;
-    border-width: 0px;
-    color: white;
+
+.button {
+  color: white;
+  background-color: #4c63b6;
+  font-family: "Roboto";
+  font-size: 18px;
+  border-width: 0px;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
-.active{
-    font-size: 10px;
-    background-color: transparent;
-    border-width: 0px;
-    color: white;
+
+.label-container {
+  background-color: #e6f6ff;
+  width: 100%;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #096f92;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 4px;
 }
-.completed{
-    font-size: 10px;
-    background-color: transparent;
-    border-width: 0px;
-    color: white;
+
+.checkbox-input {
+  width: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-right: 12px;
 }
-.clear{
-    font-size: 10px;
-    background-color: transparent;
-    border-width: 0px;
-    color: white;
+
+.checkbox-label {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: 400;
+  width: 82%;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 5px;
+}
+
+.delete-icon-container {
+  text-align: right;
+  width: 18%;
+}
+
+.delete-icon {
+  padding: 15px;
+}
+
+.checked {
+  text-decoration: line-through;
 }
