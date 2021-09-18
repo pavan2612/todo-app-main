@@ -1,0 +1,114 @@
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }
+
+.todoapp{
+    background-color:  hsl(235, 21%, 11%);
+    background-size: cover;
+    height: 100vh;
+}
+.todo{
+    padding-top: 3%;
+    background-image: url("../images/bg-desktop-dark.jpg");
+    background-size: cover;
+    height: 30vh;
+}
+
+.todomoon{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+.header{
+    font-size: 28px;
+    color: white;
+}
+.btnimage{
+    background-color: transparent;
+    border-width: 0px;
+}
+.image{
+    padding-top: 2%;
+    width: 25px;
+    height: 25px;
+}
+.input{
+    padding-top: 3%;
+    text-align: center;
+}
+.todoinput{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 40%;
+    border-width: 0px;
+    background-color: hsl(235, 19%, 35%);
+    color: white;
+}
+.todolist{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 37%;
+    background-color: hsl(235, 19%, 35%);
+    color: white;
+    margin-bottom: 0px;
+}
+.todocontainer{
+    display: flex;
+    justify-content: center;
+}
+
+.bgimage{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+li{
+    list-style: none;
+}
+.detailscontainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.details{
+    width: 40%;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    background-color: hsl(235, 19%, 35%);
+}
+.itemsdetails{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.checked{
+text-decoration: line-through;
+}
+.items{
+    font-size: 10px;
+}
+.all {
+    font-size: 10px;
+    background-color: transparent;
+    border-width: 0px;
+    color: white;
+}
+.active{
+    font-size: 10px;
+    background-color: transparent;
+    border-width: 0px;
+    color: white;
+}
+.completed{
+    font-size: 10px;
+    background-color: transparent;
+    border-width: 0px;
+    color: white;
+}
+.clear{
+    font-size: 10px;
+    background-color: transparent;
+    border-width: 0px;
+    color: white;
+}
